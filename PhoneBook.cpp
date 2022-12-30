@@ -1,53 +1,76 @@
 #include "PhoneBook.h"
 
-PhoneBook::PhoneBook(const std::string& name, int number):_name(name),_number(number) {}
-
-const std::string& PhoneBook::GetName() const{
-	return _name;
+PhoneBook::PhoneBook(){
+	_index = 0;
+	_names = new std::string[_index];
+	_numbers = new int[_index];
 }
 
-void PhoneBook::SetName(const std::string& name){
-	_name = name;
+PhoneBook::~PhoneBook(){
+	delete[] _names;
+	delete[] _numbers;
 }
 
-int PhoneBook::GetNumber() const{
-	return _number;
+void PhoneBook::AddContact(const std::string& name, int number) {
+
+		std::string* newnames = new std::string[_index + 1];
+		int* newnum = new int[_index + 1];
+		for (size_t i = 0; i < _index; i++) {
+			newnames[i] = _names[i];
+			newnum[i] = _numbers[i];
+		}
+		newnames[_index] = name;
+		newnum[_index] = number;
+		delete[] _names;
+		_names = newnames;
+		delete[] _numbers;
+		_numbers = newnum;
+		_index++;
+	
 }
 
-void PhoneBook::SetNumber(int number){
-	_number = number;
+void PhoneBook::SetContact(int index){
+	std::string newname;
+	int newNumber;
+	std::cout << "Контакт: " << _names[index] << "\t" << _numbers[index] << '\n';
+	std::cout << "Введите новое имя ->";
+	std::cin >> _names[index];
+	std::cout << "Введите новый номер ->";
+	std::cin >> _numbers[index];
 }
+
+const std::string PhoneBook::GetName(int index) const{
+	return _names[index];
+}
+
+int PhoneBook::GetNumber(int index) const{
+	return _numbers[index];
+}
+
+void PhoneBook::ShowBook(){
+	for (size_t i = 0; i < _index; i++)	{
+		std::cout << _names[i] << '\t' << _numbers[i] << '\n';
+	}
+	std::cout << std::endl;
+}
+
 
 bool PhoneBook::operator>(PhoneBook& obj){
-	_name.size() > obj.GetName().size();
-	return false;
+	return _names->length() > obj._names->size();
 }
 
-bool PhoneBook::operator>=(PhoneBook& obj) {
-	_name.size() >= obj.GetName().size();
-	return false;
+bool PhoneBook::operator>=(PhoneBook& obj){
+	return _names->size() >= obj._names->size();
 }
 
-bool PhoneBook::operator<(PhoneBook& obj) {
-	_name.size() < obj.GetName().size();
-	return false;
+bool PhoneBook::operator<(PhoneBook& obj){
+	return _names->size() < obj._names->size();
 }
 
-bool PhoneBook::operator<=(PhoneBook& obj) {
-	_name.size() <= obj.GetName().size();
-	return false;
+bool PhoneBook::operator<=(PhoneBook& obj){
+	return _names->size() <= obj._names->size();
 }
 
-const std::string& PhoneBook::operator[](int index) {
-	return _ARRnames[index];
-}
-
-void PhoneBook::SetArrNumber(int index, int number){
-	if ((index >= 0) && (index < 4))
-		_ARRnumber[index] = number;
-}
-
-void PhoneBook::SetArrNames(const std::string& name, int index){
-	if ((index >= 0) && (index < 4))
-		_ARRnames[index] = name;
+const std::string& PhoneBook::operator[](int index){
+	return _names[index];
 }

@@ -4,27 +4,22 @@
 class PhoneBook
 {
 public:
-	PhoneBook(const std::string& name, int number);
-	const std::string& GetName()const;
-	void SetName(const std::string& name);
-	int GetNumber()const;
-	void SetNumber(int number);
+	PhoneBook();
+	~PhoneBook();
+	void AddContact(const std::string& name, int number);
+	void SetContact(int index);
+	const std::string GetName(int index)const;
+	int GetNumber(int index)const;
+	void ShowBook();
 	bool operator>(PhoneBook& obj);
 	bool operator>=(PhoneBook& obj);
 	bool operator<(PhoneBook& obj);
 	bool operator<=(PhoneBook& obj);
+	//так как это массив string, мы возвращаем string, из-за того что строка может быть большой передаем по ссылке
+	//и чтобы невозможно было изменить случайно имя делаем ее const
 	const std::string& operator[](int index);
-	void SetArrNumber(int index, int item);
-	void SetArrNames(const std::string& name, int index);
 private:
-	int _ARRnumber[4];
-	std::string _ARRnames[4];
-	std::string _name;
-	int _number;
-	int _index;
-};
-struct Abonent
-{
-	std::string name;
-	int number;
+	unsigned int _index;
+	std::string* _names;
+	int* _numbers;
 };
